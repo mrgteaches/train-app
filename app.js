@@ -68,27 +68,35 @@ var config = {
         var tRemainder = diffTime % frequency;
         console.log(tRemainder);
 
-        var nextArrival = moment().add(minutesAway, "minutes");         // calculating the next arrival time
-        console.log("ARRIVAL TIME: " + moment(nextArrival).format("hh:mm"));
-
         var minutesAway = frequency - tRemainder;           // calculating how many minutes away the next arrival is
         console.log("MINUTES TILL TRAIN: " + minutesAway);      
+
+        var nextArrival = moment().add(minutesAway, "minutes");         // calculating the next arrival time 
+        console.log("ARRIVAL TIME: " + moment(nextArrival).format("hh:mm"));
+
+        
 
         var newRow = $("<tr>").append(
             $("<td>").text(trainName),
             $("<td>").text(destination),
             $("<td>").text(frequency),
-            $("<td>").text(nextArrival),
+            $("<td>").text(moment(nextArrival).format("hh:mm")),
             $("<td>").text(minutesAway),
+            $("<button>").addClass("remove").text("Remove").css("background-color", "#FFE4B5"),           
           );
 
           $("#trainSchedule > tbody").append(newRow);
+
+          $(".remove").on("click", function(event) {
+               event.preventDefault();
+               
+               $(this).parents("tr").remove();
+               
+           });
 
         }, function(errorObject) {
             console.log("The read failed: " + errorObject.code);
 
     }); //closes on child added 
-  
 
-
-}); //closes document ready
+   }); //closes document ready
